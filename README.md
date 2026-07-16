@@ -1,37 +1,33 @@
 # WinSpace
-Outil PowerShell pour visualiser rapidement ce qui prend le plus d'espace disque sur Windows, avec une vue **détaillée** et **très visuelle**.
 
-## Fonctionnalités (v1)
-- Analyse d'un chemin disque (par défaut: disque système)
-- Visualisation multi-niveaux (`-Depth`) des dossiers les plus volumineux
-- Vue **jauges** + vue **colonnes 3D** (ASCII/Unicode) pour un rendu visuel immédiat
-- Détails par élément (taille, pourcentage, chemin, état d'accès)
-- Gestion des erreurs: accès refusé, lecture impossible, chemins invalides, etc.
-- Compatible PowerShell Windows (Windows PowerShell 5.1+ et PowerShell 7+)
+WinSpace est une application Windows locale qui permet d’identifier et d’explorer ce qui occupe l’espace disque.
 
-## Utilisation
-Depuis le dossier du projet:
+## Application graphique
 
-```powershell
-powershell -ExecutionPolicy Bypass -File .\WinSpace.ps1
-```
+- Sélection d’un disque ou d’un dossier à analyser
+- Analyse parallèle avec progression, erreurs d’accès et annulation
+- Carte de bulles proportionnelle à l’espace occupé
+- Navigation dans les dossiers, recherche et tri
+- Ouverture dans l’Explorateur Windows et copie du chemin
+- Thème clair/sombre adapté au système
 
-Exemples:
+## Lancer en développement
+
+Prérequis : Node.js 22+, Rust stable et les outils de compilation Visual Studio pour C++.
 
 ```powershell
-# Analyse C:\ sur 3 niveaux, top 8, vues jauges + 3D
-powershell -ExecutionPolicy Bypass -File .\WinSpace.ps1 -Path C:\ -Depth 3 -Top 8 -VisualMode Both
-
-# Vue uniquement jauges
-powershell -ExecutionPolicy Bypass -File .\WinSpace.ps1 -Path D:\ -VisualMode Gauge
-
-# Inclure les fichiers (pas seulement dossiers) dans les vues
-powershell -ExecutionPolicy Bypass -File .\WinSpace.ps1 -Path C:\Users -Depth 2 -Top 10 -IncludeFiles
+npm install
+npm run tauri -- dev
 ```
 
-## Paramètres
-- `-Path` : chemin à analyser
-- `-Depth` : niveau de détail (1 à 8)
-- `-Top` : nombre d'éléments affichés par niveau (1 à 20)
-- `-VisualMode` : `Gauge`, `3D`, ou `Both`
-- `-IncludeFiles` : inclut aussi les fichiers dans l'affichage par niveau
+## Construire l’installeur Windows
+
+```powershell
+npm run tauri -- build
+```
+
+L’installeur NSIS est généré dans `src-tauri/target/release/bundle/nsis/`.
+
+## Ancienne version PowerShell
+
+`WinSpace.ps1` est conservé comme référence du prototype initial. La version graphique ne dépend pas de ce script.
